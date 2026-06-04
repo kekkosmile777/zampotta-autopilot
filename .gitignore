@@ -1,0 +1,8 @@
+.env
+__pycache__/
+*.pyc
+venv/
+.DS_Store
+
+media/*_silent.mp4
+media/*_pad.m4a

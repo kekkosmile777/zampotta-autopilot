@@ -1,0 +1,56 @@
+{
+  "brand": "Zampotta",
+  "payoff": "Tutto per la sua felicita",
+  "default_hashtags": ["#cani", "#gatti", "#animalidomestici", "#petcare", "#zampotta"],
+  "posts": [
+    {
+      "hook": "Sta per nascere",
+      "sub": "qualcosa di speciale per loro",
+      "cta": "Seguici per il lancio",
+      "caption": "Ciao! Siamo Zampotta. Amiamo cani e gatti e stiamo per lanciare prodotti pensati per la loro felicita. Seguici per non perderti il lancio e lo sconto!",
+      "hashtags": ["#cani", "#gatti", "#animalidomestici", "#petlife", "#zampotta"]
+    },
+    {
+      "hook": "Con questo caldo",
+      "sub": "anche lui soffre",
+      "cta": "Seguici per i consigli",
+      "caption": "L'estate e dura per i nostri amici a 4 zampe. Nei prossimi giorni ti mostriamo come aiutarli a stare freschi. Seguici!",
+      "hashtags": ["#cani", "#estate", "#consiglicani", "#animalidomestici", "#zampotta"]
+    },
+    {
+      "hook": "Beve troppo poco?",
+      "sub": "Scopri come aiutarlo",
+      "cta": "Domani la soluzione",
+      "caption": "I gatti preferiscono l'acqua corrente, per questo spesso bevono poco con rischi per i reni. Domani la soluzione!",
+      "hashtags": ["#gatti", "#salutedelgatto", "#micio", "#catcare", "#zampotta"]
+    },
+    {
+      "hook": "Scegliamo solo cose",
+      "sub": "che daremmo al nostro pet",
+      "cta": "Lancio in arrivo",
+      "caption": "Stiamo selezionando i primi prodotti Zampotta uno per uno. Niente roba a caso: solo cose utili e di qualita. Cosa vorresti vedere per primo?",
+      "hashtags": ["#animalidomestici", "#cani", "#gatti", "#petcare", "#zampotta"]
+    },
+    {
+      "hook": "Loro ci danno tutto",
+      "sub": "Noi ricambiamo",
+      "cta": "Taggalo nei commenti",
+      "caption": "Il bello di avere un animale? L'amore senza condizioni. Tagga il tuo micio o cucciolo qui sotto!",
+      "hashtags": ["#doglover", "#catlover", "#animalidomestici", "#petlife", "#zampotta"]
+    },
+    {
+      "hook": "Team Cane o Gatto?",
+      "sub": "Diccelo nei commenti",
+      "cta": "Lancio sempre piu vicino",
+      "caption": "Diteci nei commenti: siete piu cani o piu gatti? Noi li amiamo entrambi. Lancio sempre piu vicino!",
+      "hashtags": ["#cani", "#gatti", "#pettok", "#animalidomestici", "#zampotta"]
+    },
+    {
+      "hook": "Lo shop sta arrivando",
+      "sub": "-10 per i primi iscritti",
+      "cta": "Link in bio",
+      "caption": "Ci siamo quasi! Iscriviti alla lista d'attesa (link in bio) e avrai il 10% di sconto sul primo ordine + sarai tra i primi a saperlo.",
+      "hashtags": ["#cani", "#gatti", "#animalidomestici", "#petcare", "#zampotta"]
+    }
+  ]
+}

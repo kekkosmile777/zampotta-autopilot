@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zampotta Autopilot — Dashboard</title>
+<style>
+  :root{--teal:#2BB6A3;--coral:#FF7A59;--cream:#FFF7F0;--ink:#2D2A32;--muted:#6c6873;--ok:#1E8576;--err:#C0392B}
+  *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,Segoe UI,Roboto,sans-serif}
+  body{background:var(--cream);color:var(--ink);padding:24px}
+  h1{font-size:1.6rem;display:flex;align-items:center;gap:10px}
+  h1 span{color:var(--teal)}
+  .sub{color:var(--muted);margin:4px 0 22px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:26px}
+  .card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 6px 18px rgba(0,0,0,.05)}
+  .card .n{font-size:1.9rem;font-weight:700}
+  .card .l{color:var(--muted);font-size:.85rem}
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.05)}
+  th,td{padding:12px 14px;text-align:left;border-bottom:1px solid #f0ede9;font-size:.92rem}
+  th{background:var(--teal);color:#fff}
+  .pill{padding:3px 10px;border-radius:20px;font-size:.78rem;font-weight:700;color:#fff;display:inline-block}
+  .published{background:var(--ok)}.draft{background:#E1A100}.error{background:var(--err)}
+  .ch{font-weight:700;text-transform:capitalize}
+  .empty{color:var(--muted);padding:30px;text-align:center}
+</style>
+</head>
+<body>
+  <h1>🐾 Zampotta <span>Autopilot</span></h1>
+  <div class="sub">Report delle pubblicazioni automatiche</div>
+  <div class="cards" id="cards"></div>
+  <table>
+    <thead><tr><th>Data</th><th>Contenuto</th><th>Canali</th></tr></thead>
+    <tbody id="rows"><tr><td colspan="3" class="empty">Caricamento…</td></tr></tbody>
+  </table>
+<script>
+async function load(){
+  let log=[];
+  try{ log = await (await fetch('../posts_log.json?'+Date.now())).json(); }
+  catch(e){ try{ log = await (await fetch('posts_log.json?'+Date.now())).json(); }catch(_){} }
+  const rows=document.getElementById('rows'), cards=document.getElementById('cards');
+  let total=log.length, pub=0, err=0;
+  log.forEach(p=>p.results.forEach(r=>{ if(r.status==='published')pub++; if(r.status==='error')err++; }));
+  cards.innerHTML = [
+    ['Post totali', total],
+    ['Pubblicazioni OK', pub],
+    ['Errori', err],
+    ['Ultimo post', log[0]?log[0].date:'-']
+  ].map(([l,n])=>`<div class="card"><div class="n">${n}</div><div class="l">${l}</div></div>`).join('');
+  if(!log.length){ rows.innerHTML='<tr><td colspan="3" class="empty">Ancora nessuna pubblicazione.</td></tr>'; return; }
+  rows.innerHTML = log.map(p=>`<tr>
+    <td>${p.date}</td>
+    <td>${p.title||p.file}</td>
+    <td>${p.results.map(r=>`<span class="ch">${r.channel}</span> <span class="pill ${r.status}">${r.status}</span>`).join('<br>')}</td>
+  </tr>`).join('');
+}
+load();
+</script>
+</body>
+</html>
