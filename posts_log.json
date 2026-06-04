@@ -6,6 +6,18 @@
     "results": [
       {
         "channel": "youtube",
+        "status": "published",
+        "id": "0r0H294Jffk"
+      }
+    ]
+  },
+  {
+    "date": "2026-06-04",
+    "file": "2026-06-04.mp4",
+    "title": "Con questo caldo anche lui soffre",
+    "results": [
+      {
+        "channel": "youtube",
         "status": "error",
         "error": "<HttpError 401 when requesting None returned \"Unauthorized\". Details: \"[{'message': 'Unauthorized', 'domain': 'youtube.header', 'reason': 'youtubeSignupRequired', 'location': 'Authorization', 'locationType': 'header'}]\">"
       }
