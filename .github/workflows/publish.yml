@@ -1,0 +1,59 @@
+name: Zampotta Autopilot
+
+on:
+  schedule:
+    - cron: "0 12 * * *"   # ogni giorno alle 12:00 UTC (13/14 in Italia)
+  workflow_dispatch: {}      # permette l'avvio manuale dalla tab Actions
+
+permissions:
+  contents: write            # per committare media e log nel repo
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      ENABLED_CHANNELS: ${{ secrets.ENABLED_CHANNELS }}
+      PUBLIC_MEDIA_BASE: ${{ secrets.PUBLIC_MEDIA_BASE }}
+      IG_USER_ID: ${{ secrets.IG_USER_ID }}
+      IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+      META_APP_ID: ${{ secrets.META_APP_ID }}
+      META_APP_SECRET: ${{ secrets.META_APP_SECRET }}
+      YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+      YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+      YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+      TIKTOK_ACCESS_TOKEN: ${{ secrets.TIKTOK_ACCESS_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Installa ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Installa dipendenze
+        run: pip install -r requirements.txt
+
+      - name: Genera il video del giorno
+        run: python main.py generate
+
+      - name: Committa il video (serve l'URL pubblico per Instagram/TikTok)
+        run: |
+          git config user.name "zampotta-bot"
+          git config user.email "bot@zampotta.it"
+          git add media/ today.json
+          git commit -m "media: video del giorno" || echo "nessun cambiamento"
+          git push
+
+      - name: Attendi propagazione raw URL
+        run: sleep 20
+
+      - name: Pubblica sui canali
+        run: python main.py publish
+
+      - name: Committa il log
+        run: |
+          git add posts_log.json
+          git commit -m "log: aggiornamento pubblicazioni" || echo "nessun cambiamento"
+          git push
