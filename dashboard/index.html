@@ -5,52 +5,123 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zampotta Autopilot — Dashboard</title>
 <style>
-  :root{--teal:#2BB6A3;--coral:#FF7A59;--cream:#FFF7F0;--ink:#2D2A32;--muted:#6c6873;--ok:#1E8576;--err:#C0392B}
+  :root{--teal:#2BB6A3;--coral:#FF7A59;--cream:#FFF7F0;--ink:#2D2A32;--muted:#6c6873;--ok:#1E8576;--warn:#E1A100;--err:#C0392B;--card:#fff}
   *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,Segoe UI,Roboto,sans-serif}
-  body{background:var(--cream);color:var(--ink);padding:24px}
-  h1{font-size:1.6rem;display:flex;align-items:center;gap:10px}
-  h1 span{color:var(--teal)}
-  .sub{color:var(--muted);margin:4px 0 22px}
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:26px}
-  .card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 6px 18px rgba(0,0,0,.05)}
-  .card .n{font-size:1.9rem;font-weight:700}
-  .card .l{color:var(--muted);font-size:.85rem}
-  table{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.05)}
-  th,td{padding:12px 14px;text-align:left;border-bottom:1px solid #f0ede9;font-size:.92rem}
-  th{background:var(--teal);color:#fff}
-  .pill{padding:3px 10px;border-radius:20px;font-size:.78rem;font-weight:700;color:#fff;display:inline-block}
-  .published{background:var(--ok)}.draft{background:#E1A100}.error{background:var(--err)}
-  .ch{font-weight:700;text-transform:capitalize}
-  .empty{color:var(--muted);padding:30px;text-align:center}
+  body{background:var(--cream);color:var(--ink);padding:18px;max-width:920px;margin:0 auto}
+  h1{font-size:1.5rem;display:flex;align-items:center;gap:8px}
+  h1 b{color:var(--teal)}
+  .sub{color:var(--muted);margin:4px 0 18px;font-size:.9rem}
+  h2{font-size:1rem;margin:22px 0 10px;color:var(--ink)}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+  .card{background:var(--card);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.05)}
+  .card .n{font-size:1.8rem;font-weight:700;line-height:1}
+  .card .l{color:var(--muted);font-size:.82rem;margin-top:6px}
+  .chgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .ch{background:var(--card);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:6px}
+  .ch .name{font-weight:700;display:flex;align-items:center;gap:8px}
+  .ch .st{font-size:.82rem;font-weight:700;padding:3px 10px;border-radius:20px;color:#fff;align-self:flex-start}
+  .st.attivo{background:var(--ok)}.st.arrivo{background:var(--warn)}.st.manuale{background:var(--coral)}
+  .ch a{color:var(--teal);font-size:.82rem;text-decoration:none}
+  .ch a:hover{text-decoration:underline}
+  .todo{background:#FFF1EB;border:1px solid #FFD9CC;border-radius:16px;padding:16px;margin-top:6px}
+  .todo b{color:var(--coral)}
+  .todo a{display:inline-block;margin-top:8px;background:var(--coral);color:#fff;padding:9px 16px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.9rem}
+  table{width:100%;border-collapse:collapse;background:var(--card);border-radius:16px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.05)}
+  th,td{padding:11px 13px;text-align:left;border-bottom:1px solid #f0ede9;font-size:.9rem;vertical-align:top}
+  th{background:var(--teal);color:#fff;font-size:.82rem}
+  tr:last-child td{border-bottom:none}
+  .pill{padding:3px 9px;border-radius:20px;font-size:.74rem;font-weight:700;color:#fff;display:inline-block}
+  .published{background:var(--ok)}.draft{background:var(--warn)}.error{background:var(--err)}
+  .cap{font-weight:700}
+  td a{color:var(--teal);text-decoration:none}td a:hover{text-decoration:underline}
+  .empty{color:var(--muted);padding:26px;text-align:center}
+  footer{color:var(--muted);font-size:.8rem;margin-top:22px;text-align:center;line-height:1.7}
+  footer a{color:var(--teal)}
+  .reload{float:right;background:var(--teal);color:#fff;border:none;border-radius:10px;padding:7px 13px;font-weight:700;cursor:pointer;font-size:.82rem}
 </style>
 </head>
 <body>
-  <h1>🐾 Zampotta <span>Autopilot</span></h1>
-  <div class="sub">Report delle pubblicazioni automatiche</div>
+  <button class="reload" onclick="load()">↻ Aggiorna</button>
+  <h1>🐾 Zampotta <b>Autopilot</b></h1>
+  <div class="sub">Centro di controllo delle pubblicazioni automatiche · <span id="updated">—</span></div>
+
+  <h2>Stato canali</h2>
+  <div class="chgrid">
+    <div class="ch">
+      <div class="name">▶️ YouTube</div>
+      <span class="st attivo">Automatico</span>
+      <span style="font-size:.82rem;color:var(--muted)">1 Short/giorno, da solo</span>
+      <a href="https://www.youtube.com/@ZampottaShop" target="_blank">Apri canale →</a>
+    </div>
+    <div class="ch">
+      <div class="name">📸 Instagram</div>
+      <span class="st arrivo" id="ig-st">In configurazione</span>
+      <span style="font-size:.82rem;color:var(--muted)">Setup Meta in corso</span>
+    </div>
+    <div class="ch">
+      <div class="name">🎵 TikTok</div>
+      <span class="st manuale">Manuale</span>
+      <span style="font-size:.82rem;color:var(--muted)">Scarica il video e postalo a mano</span>
+    </div>
+  </div>
+
+  <h2>Numeri</h2>
   <div class="cards" id="cards"></div>
+
+  <div id="tiktok-todo"></div>
+
+  <h2>Storico pubblicazioni</h2>
   <table>
     <thead><tr><th>Data</th><th>Contenuto</th><th>Canali</th></tr></thead>
     <tbody id="rows"><tr><td colspan="3" class="empty">Caricamento…</td></tr></tbody>
   </table>
+
+  <footer>
+    <a href="https://www.youtube.com/@ZampottaShop" target="_blank">Canale YouTube</a> ·
+    <a href="https://github.com/kekkosmile777/zampotta-autopilot" target="_blank">Repository</a> ·
+    <a href="https://github.com/kekkosmile777/zampotta-autopilot/actions" target="_blank">Stato automazione</a><br>
+    Aggiornata automaticamente ad ogni pubblicazione.
+  </footer>
+
 <script>
+const RAW = 'https://raw.githubusercontent.com/kekkosmile777/zampotta-autopilot/main/posts_log.json';
+const MEDIA_BASE = 'https://raw.githubusercontent.com/kekkosmile777/zampotta-autopilot/main/media';
+
+function chLink(r){
+  if(r.channel==='youtube' && r.id) return `<a href="https://www.youtube.com/watch?v=${r.id}" target="_blank">▶️ youtube</a>`;
+  if(r.channel==='instagram' && r.id) return `<a href="https://www.instagram.com/reel/${r.id}" target="_blank">📸 instagram</a>`;
+  return `<span class="cap">${r.channel}</span>`;
+}
+
 async function load(){
+  document.getElementById('updated').textContent = 'aggiornata ' + new Date().toLocaleString('it-IT');
   let log=[];
-  try{ log = await (await fetch('../posts_log.json?'+Date.now())).json(); }
-  catch(e){ try{ log = await (await fetch('posts_log.json?'+Date.now())).json(); }catch(_){} }
+  try{ log = await (await fetch(RAW+'?'+Date.now())).json(); }
+  catch(e){ try{ log = await (await fetch('../posts_log.json?'+Date.now())).json(); }catch(_){} }
+
   const rows=document.getElementById('rows'), cards=document.getElementById('cards');
   let total=log.length, pub=0, err=0;
-  log.forEach(p=>p.results.forEach(r=>{ if(r.status==='published')pub++; if(r.status==='error')err++; }));
+  log.forEach(p=>(p.results||[]).forEach(r=>{ if(r.status==='published')pub++; if(r.status==='error')err++; }));
   cards.innerHTML = [
-    ['Post totali', total],
-    ['Pubblicazioni OK', pub],
+    ['Post pubblicati', total],
+    ['Upload riusciti', pub],
     ['Errori', err],
-    ['Ultimo post', log[0]?log[0].date:'-']
+    ['Ultimo post', log[0]?log[0].date:'—']
   ].map(([l,n])=>`<div class="card"><div class="n">${n}</div><div class="l">${l}</div></div>`).join('');
-  if(!log.length){ rows.innerHTML='<tr><td colspan="3" class="empty">Ancora nessuna pubblicazione.</td></tr>'; return; }
+
+  // Box TikTok da fare a mano (ultimo video)
+  const todo=document.getElementById('tiktok-todo');
+  if(log[0] && log[0].file){
+    todo.innerHTML = `<div class="todo"><b>🎵 Da postare a mano su TikTok:</b><br>
+      Video di oggi: <b>${log[0].title||log[0].file}</b>. Scaricalo e caricalo dall'app TikTok.
+      <br><a href="${MEDIA_BASE}/${log[0].file}" target="_blank">⬇️ Scarica il video di oggi</a></div>`;
+  } else { todo.innerHTML=''; }
+
+  if(!log.length){ rows.innerHTML='<tr><td colspan="3" class="empty">Ancora nessuna pubblicazione. Il primo video parte al prossimo giro automatico.</td></tr>'; return; }
   rows.innerHTML = log.map(p=>`<tr>
     <td>${p.date}</td>
-    <td>${p.title||p.file}</td>
-    <td>${p.results.map(r=>`<span class="ch">${r.channel}</span> <span class="pill ${r.status}">${r.status}</span>`).join('<br>')}</td>
+    <td><span class="cap">${p.title||p.file}</span></td>
+    <td>${(p.results||[]).map(r=>`${chLink(r)} <span class="pill ${r.status}">${r.status==='published'?'pubblicato':r.status}</span>`).join('<br>')}</td>
   </tr>`).join('');
 }
 load();
