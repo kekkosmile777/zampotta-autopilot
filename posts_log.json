@@ -7,6 +7,23 @@
       {
         "channel": "instagram",
         "status": "error",
+        "error": "500 Server Error: Internal Server Error for url: https://graph.facebook.com/v21.0/17841428090518560/media_publish"
+      },
+      {
+        "channel": "youtube",
+        "status": "published",
+        "id": "lNXp7pIExts"
+      }
+    ]
+  },
+  {
+    "date": "2026-06-12",
+    "file": "2026-06-12.mp4",
+    "title": "Beve troppo poco? Scopri come aiutarlo",
+    "results": [
+      {
+        "channel": "instagram",
+        "status": "error",
         "error": "Instagram: il media non e' diventato FINISHED in tempo"
       },
       {
