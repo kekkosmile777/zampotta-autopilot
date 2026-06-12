@@ -1,5 +1,22 @@
 [
   {
+    "date": "2026-06-12",
+    "file": "2026-06-12.mp4",
+    "title": "Beve troppo poco? Scopri come aiutarlo",
+    "results": [
+      {
+        "channel": "instagram",
+        "status": "error",
+        "error": "500 Server Error: Internal Server Error for url: https://graph.facebook.com/v21.0/17841428090518560/media"
+      },
+      {
+        "channel": "youtube",
+        "status": "error",
+        "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})"
+      }
+    ]
+  },
+  {
     "date": "2026-06-11",
     "file": "2026-06-11.mp4",
     "title": "Con questo caldo anche lui soffre",
