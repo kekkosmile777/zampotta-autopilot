@@ -1,5 +1,22 @@
 [
   {
+    "date": "2026-06-13",
+    "file": "2026-06-13.mp4",
+    "title": "Scegliamo solo cose che daremmo al nostro pet",
+    "results": [
+      {
+        "channel": "instagram",
+        "status": "error",
+        "error": "Instagram media in ERROR: {'status_code': 'ERROR', 'id': '18100506796936351'}"
+      },
+      {
+        "channel": "youtube",
+        "status": "published",
+        "id": "OlYeXtJtkrU"
+      }
+    ]
+  },
+  {
     "date": "2026-06-12",
     "file": "2026-06-12.mp4",
     "title": "Beve troppo poco? Scopri come aiutarlo",
