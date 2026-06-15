@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zampotta — Centro di Controllo</title>
+<style>
+  :root{
+    --green:#2F7D6B; --dgreen:#214E45; --coral:#FF7A59; --cream:#FBF5EC;
+    --sand:#E9DCC6; --ink:#23362F; --muted:#6b7d76; --card:#ffffff;
+    --ok:#2F9E6B; --warn:#E6A100; --bad:#E0533D; --future:#9aa7a2;
+    --shadow:0 1px 3px rgba(33,78,69,.08),0 4px 16px rgba(33,78,69,.06);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    background:var(--cream);color:var(--ink);line-height:1.5}
+  a{color:var(--green);text-decoration:none}
+  a:hover{text-decoration:underline}
+  /* layout */
+  .wrap{display:flex;min-height:100vh}
+  .side{width:230px;background:var(--dgreen);color:#fff;padding:18px 14px;position:sticky;top:0;height:100vh;flex-shrink:0}
+  .brand{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .brand .name{font-weight:700;font-size:20px;letter-spacing:.5px}
+  .brand .sub{font-size:11px;color:#bfe3da;letter-spacing:2px;margin-top:-2px}
+  .nav{margin-top:18px;display:flex;flex-direction:column;gap:3px}
+  .nav button{display:flex;align-items:center;gap:9px;background:transparent;border:0;color:#d7e9e4;
+    text-align:left;padding:10px 12px;border-radius:9px;cursor:pointer;font-size:14px;width:100%;transition:.15s}
+  .nav button:hover{background:rgba(255,255,255,.08)}
+  .nav button.active{background:var(--green);color:#fff;font-weight:600}
+  .nav .ico{width:18px;text-align:center}
+  .side .foot{position:absolute;bottom:14px;left:14px;right:14px;font-size:11px;color:#8fb8ae}
+  .main{flex:1;padding:26px 30px;max-width:1180px}
+  .topbar{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+  .topbar h1{margin:0;font-size:24px}
+  .topbar .upd{font-size:12px;color:var(--muted)}
+  /* cards & badges */
+  .grid{display:grid;gap:16px}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  @media(max-width:980px){.g4,.g3,.g2{grid-template-columns:1fr 1fr}}
+  @media(max-width:680px){.side{display:none}.g4,.g3,.g2{grid-template-columns:1fr}.main{padding:18px}}
+  .card{background:var(--card);border:1px solid var(--sand);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+  .card h3{margin:0 0 4px;font-size:15px}
+  .kpi .big{font-size:26px;font-weight:700;margin:6px 0 2px}
+  .kpi .lbl{font-size:12px;color:var(--muted)}
+  .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px}
+  .b-ok{background:#e3f4ec;color:var(--ok)}
+  .b-warn{background:#fdf2d8;color:#9a7400}
+  .b-bad{background:#fbe4df;color:var(--bad)}
+  .b-future{background:#eef1f0;color:var(--future)}
+  .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+  .section{display:none;animation:fade .2s}
+  .section.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .sec-title{font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin:24px 0 10px;font-weight:700}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--sand)}
+  th{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+  tr:last-child td{border-bottom:0}
+  .pill{font-size:11px;padding:2px 8px;border-radius:6px;background:var(--cream);border:1px solid var(--sand)}
+  .bar{height:10px;border-radius:6px;background:var(--sand);overflow:hidden}
+  .bar > i{display:block;height:100%;background:var(--green);border-radius:6px}
+  ul.clean{list-style:none;padding:0;margin:0}
+  ul.clean li{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px dashed var(--sand)}
+  ul.clean li:last-child{border-bottom:0}
+  .check{width:18px;height:18px;border-radius:5px;border:2px solid var(--green);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff}
+  .check.done{background:var(--green)}
+  .check.todo{border-color:var(--coral)}
+  .muted{color:var(--muted);font-size:13px}
+  .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .chip{font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px}
+  .c-prio{background:#fbe4df;color:var(--bad)}
+  .c-med{background:#fdf2d8;color:#9a7400}
+  .c-low{background:#eef1f0;color:var(--future)}
+  .quick a{display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid var(--sand);border-radius:10px;background:#fff;font-size:13px;color:var(--ink)}
+  .quick a:hover{border-color:var(--green);text-decoration:none}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:8px}
+  .legend span{display:inline-flex;gap:6px;align-items:center}
+  .note{background:#fff7ef;border:1px solid #f3dcc6;border-radius:10px;padding:12px 14px;font-size:13px;color:#7a5a3a}
+  .chart{display:flex;align-items:flex-end;gap:18px;height:140px;padding-top:10px}
+  .chart .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;justify-content:flex-end}
+  .chart .colbar{width:42px;border-radius:8px 8px 0 0;background:var(--green)}
+  .chart .colbar.alt{background:var(--coral)}
+  .chart .colbar.fut{background:var(--sand)}
+  .chart small{font-size:11px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <!-- SIDEBAR -->
+  <aside class="side">
+    <div class="brand">
+      <svg width="34" height="34" viewBox="0 0 100 100"><g fill="#fff">
+        <ellipse cx="28" cy="30" rx="8" ry="10"/><ellipse cx="44" cy="22" rx="8" ry="10"/>
+        <ellipse cx="60" cy="22" rx="8" ry="10"/><ellipse cx="74" cy="30" rx="8" ry="10"/>
+        <path d="M30 55 Q28 78 51 80 Q74 78 72 55 Q51 62 30 55Z"/></g></svg>
+      <div><div class="name">Zampotta</div><div class="sub">CONTROL CENTER</div></div>
+    </div>
+    <nav class="nav" id="nav">
+      <button data-s="panoramica" class="active"><span class="ico">📊</span> Panoramica</button>
+      <button data-s="social"><span class="ico">📱</span> Social &amp; Canali</button>
+      <button data-s="contenuti"><span class="ico">🎬</span> Contenuti</button>
+      <button data-s="performance"><span class="ico">📈</span> Performance</button>
+      <button data-s="store"><span class="ico">🛒</span> Store &amp; Vendite</button>
+      <button data-s="fornitore"><span class="ico">📦</span> Fornitore (CJ)</button>
+      <button data-s="automazione"><span class="ico">🤖</span> Automazione</button>
+      <button data-s="todo"><span class="ico">✅</span> Da fare</button>
+      <button data-s="roadmap"><span class="ico">🚀</span> Roadmap futura</button>
+    </nav>
+    <div class="foot">v1.0 · aggiorna i dati a mano<br>finché non colleghiamo le API live</div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="topbar">
+      <h1 id="secHead">Panoramica</h1>
+      <div class="upd">Ultimo aggiornamento: <b id="today"></b> · stato manuale</div>
+    </div>
+
+    <!-- PANORAMICA -->
+    <section class="section active" id="panoramica">
+      <div class="grid g4">
+        <div class="card kpi"><h3>Store online</h3><div class="big">In prova</div><span class="badge b-warn"><span class="dot" style="background:var(--warn)"></span> Piano da scegliere</span></div>
+        <div class="card kpi"><h3>Pagamenti</h3><div class="big">PayPal</div><span class="badge b-ok"><span class="dot" style="background:var(--ok)"></span> Attivo</span></div>
+        <div class="card kpi"><h3>Social attivi</h3><div class="big">3 canali</div><span class="badge b-ok"><span class="dot" style="background:var(--ok)"></span> IG · YT live</span></div>
+        <div class="card kpi"><h3>Autopilot</h3><div class="big">1/giorno</div><span class="badge b-ok"><span class="dot" style="background:var(--ok)"></span> Cron attivo</span></div>
+      </div>
+
+      <div class="sec-title">Stato generale del progetto</div>
+      <div class="grid g2">
+        <div class="card">
+          <ul class="clean">
+            <li><div class="check done">✓</div><div><b>Brand &amp; identità</b> — logo, palette, profili social creati</div></li>
+            <li><div class="check done">✓</div><div><b>Store Shopify</b> — 6 prodotti attivi con grafiche, 5 pagine legali</div></li>
+            <li><div class="check done">✓</div><div><b>Spedizione</b> — Italia gratis · UE €14,99 · Mondo €19,99</div></li>
+            <li><div class="check done">✓</div><div><b>Pagamenti</b> — PayPal attivo (EUR)</div></li>
+            <li><div class="check done">✓</div><div><b>Social autopilot</b> — Instagram + YouTube live, 1 post/giorno</div></li>
+            <li><div class="check done">✓</div><div><b>Fornitore CJ</b> — collegato a Shopify</div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="row"><b>⚠️ Da completare a breve</b></div>
+          <ul class="clean" style="margin-top:6px">
+            <li><div class="check todo"></div><div><b>Piano Shopify</b> <span class="chip c-prio">urgente</span> — la prova scade ~16 giu</div></li>
+            <li><div class="check todo"></div><div><b>Import prodotti reali CJ</b> <span class="chip c-med">in attesa</span> — sync delivery profile bloccata</div></li>
+            <li><div class="check todo"></div><div><b>KYC PayPal</b> <span class="chip c-med">verifica</span> — completare identità impresa</div></li>
+            <li><div class="check todo"></div><div><b>Hero tema in italiano</b> <span class="chip c-low">estetica</span></div></li>
+            <li><div class="check todo"></div><div><b>Conto business</b> <span class="chip c-med">decidere</span> — vedi confronto conti</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sec-title">Collegamenti rapidi</div>
+      <div class="grid g4 quick">
+        <a href="https://admin.shopify.com/store/h0bgse-t1" target="_blank">🛍️ Admin Shopify</a>
+        <a href="https://www.instagram.com/zampotta.it/" target="_blank">📸 Instagram</a>
+        <a href="https://kekkosmile777.github.io/zampotta-autopilot/dashboard/" target="_blank">🤖 Dashboard Autopilot</a>
+        <a href="https://github.com/kekkosmile777/zampotta-autopilot" target="_blank">💻 Repo GitHub</a>
+      </div>
+    </section>
+
+    <!-- SOCIAL -->
+    <section class="section" id="social">
+      <div class="grid g3">
+        <div class="card">
+          <div class="row"><h3>📸 Instagram</h3><span class="badge b-ok">Live</span></div>
+          <p class="muted">@zampotta.it · Business + Pagina FB</p>
+          <table><tr><td>Pubblicazione</td><td><b>Auto (Reel)</b></td></tr>
+          <tr><td>Post pubblicati</td><td><span class="pill">1</span></td></tr>
+          <tr><td>Follower</td><td><span class="muted">da aggiornare</span></td></tr></table>
+          <a href="https://www.instagram.com/zampotta.it/" target="_blank">Apri profilo →</a>
+        </div>
+        <div class="card">
+          <div class="row"><h3>▶️ YouTube</h3><span class="badge b-ok">Live</span></div>
+          <p class="muted">Zampotta Shop · @ZampottaShop</p>
+          <table><tr><td>Pubblicazione</td><td><b>Auto (Shorts)</b></td></tr>
+          <tr><td>Video pubblicati</td><td><span class="pill">1+</span></td></tr>
+          <tr><td>Iscritti</td><td><span class="muted">da aggiornare</span></td></tr></table>
+          <a href="https://www.youtube.com/@ZampottaShop" target="_blank">Apri canale →</a>
+        </div>
+        <div class="card">
+          <div class="row"><h3>🎵 TikTok</h3><span class="badge b-warn">Manuale</span></div>
+          <p class="muted">@zampotta</p>
+          <table><tr><td>Pubblicazione</td><td><b>Manuale</b></td></tr>
+          <tr><td>Auto-post</td><td><span class="muted">richiede audit TikTok</span></td></tr>
+          <tr><td>Follower</td><td><span class="muted">da aggiornare</span></td></tr></table>
+          <span class="muted">Auto-post attivabile in fase 2</span>
+        </div>
+      </div>
+      <div class="note" style="margin-top:16px">💡 I numeri (follower/iscritti/views) sono da inserire a mano per ora. In una fase futura li colleghiamo via API (Meta Graph / YouTube Data) e si aggiornano da soli.</div>
+    </section>
+
+    <!-- CONTENUTI -->
+    <section class="section" id="contenuti">
+      <div class="sec-title">Contenuti pubblicati</div>
+      <div class="card">
+        <table>
+          <tr><th>Data</th><th>Canale</th><th>Contenuto</th><th>Stato</th></tr>
+          <tr><td>—</td><td>Instagram</td><td>Reel "Con questo caldo anche lui soffre"</td><td><span class="badge b-ok">Pubblicato</span></td></tr>
+          <tr><td>—</td><td>YouTube</td><td>Short estate/refrigerante</td><td><span class="badge b-ok">Pubblicato</span></td></tr>
+        </table>
+      </div>
+
+      <div class="sec-title">Pronti da pubblicare (coda autopilot)</div>
+      <div class="card">
+        <table>
+          <tr><th>#</th><th>Video</th><th>Tema</th><th>Stato</th></tr>
+          <tr><td>1–7</td><td>giorno1…giorno7 (motion-graphic)</td><td>Settimana lancio estivo</td><td><span class="badge b-warn">In coda (cron)</span></td></tr>
+        </table>
+        <p class="muted" style="margin-top:10px">+ Kit 20 caption pronte · file "Settimana 1 – post pronti" (cosa filmare + caption + hashtag).</p>
+      </div>
+
+      <div class="sec-title">Calendario (predisposto)</div>
+      <div class="card">
+        <div class="chart">
+          <div class="col"><div class="colbar" style="height:35%"></div><small>Lun</small></div>
+          <div class="col"><div class="colbar" style="height:55%"></div><small>Mar</small></div>
+          <div class="col"><div class="colbar" style="height:45%"></div><small>Mer</small></div>
+          <div class="col"><div class="colbar" style="height:70%"></div><small>Gio</small></div>
+          <div class="col"><div class="colbar alt" style="height:90%"></div><small>Ven</small></div>
+          <div class="col"><div class="colbar alt" style="height:80%"></div><small>Sab</small></div>
+          <div class="col"><div class="colbar fut" style="height:30%"></div><small>Dom</small></div>
+        </div>
+        <p class="muted">Esempio di distribuzione settimanale (1 post/giorno automatico ~14:00). Personalizzabile.</p>
+      </div>
+    </section>
+
+    <!-- PERFORMANCE -->
+    <section class="section" id="performance">
+      <div class="grid g4">
+        <div class="card kpi"><div class="lbl">Visualizzazioni (7gg)</div><div class="big">—</div><span class="muted">da collegare</span></div>
+        <div class="card kpi"><div class="lbl">Engagement</div><div class="big">—</div><span class="muted">da collegare</span></div>
+        <div class="card kpi"><div class="lbl">Nuovi follower</div><div class="big">—</div><span class="muted">da collegare</span></div>
+        <div class="card kpi"><div class="lbl">Click allo store</div><div class="big">—</div><span class="muted">da collegare</span></div>
+      </div>
+      <div class="sec-title">Contenuti per canale</div>
+      <div class="card">
+        <div class="chart">
+          <div class="col"><div class="colbar" style="height:20%"></div><small>Instagram</small></div>
+          <div class="col"><div class="colbar" style="height:20%"></div><small>YouTube</small></div>
+          <div class="col"><div class="colbar fut" style="height:8%"></div><small>TikTok</small></div>
+        </div>
+      </div>
+      <div class="note" style="margin-top:16px">📊 Sezione <b>predisposta</b> per i KPI live. Quando colleghiamo le API dei social e Shopify Analytics, qui appariranno views, tasso di engagement, traffico allo store, conversioni e vendite — aggiornati in automatico.</div>
+    </section>
+
+    <!-- STORE -->
+    <section class="section" id="store">
+      <div class="grid g4">
+        <div class="card kpi"><div class="lbl">Prodotti attivi</div><div class="big">6</div></div>
+        <div class="card kpi"><div class="lbl">Ordini</div><div class="big">0</div><span class="muted">in attesa lancio</span></div>
+        <div class="card kpi"><div class="lbl">Pagamenti</div><div class="big">PayPal</div><span class="badge b-ok">Attivo</span></div>
+        <div class="card kpi"><div class="lbl">Piano</div><div class="big">Prova</div><span class="badge b-warn">Scade ~16/06</span></div>
+      </div>
+      <div class="sec-title">Catalogo &amp; prezzi</div>
+      <div class="card">
+        <table>
+          <tr><th>Prodotto</th><th>Prezzo</th><th>Stato</th></tr>
+          <tr><td>RelaxMat — Tappetino Refrigerante</td><td>€24,90</td><td><span class="badge b-ok">Attivo</span></td></tr>
+          <tr><td>FonteFresca — Fontana ad Acqua</td><td>€29,90</td><td><span class="badge b-ok">Attivo</span></td></tr>
+          <tr><td>PappaLenta — Ciotola Slow Feeder</td><td>€19,90</td><td><span class="badge b-ok">Attivo</span></td></tr>
+          <tr><td>Pulisci-Zampe — Pulizia Portatile</td><td>€16,90</td><td><span class="badge b-ok">Attivo</span></td></tr>
+          <tr><td>FrescoZampa — Bandana Refrigerante</td><td>€13,90</td><td><span class="badge b-ok">Attivo</span></td></tr>
+          <tr><td>Guanto Toelettatura — Massaggio</td><td>€12,90</td><td><span class="badge b-ok">Attivo</span></td></tr>
+        </table>
+      </div>
+      <div class="sec-title">Spedizioni &amp; pagine</div>
+      <div class="grid g2">
+        <div class="card"><b>Spedizioni</b><table style="margin-top:6px">
+          <tr><td>Italia</td><td><span class="badge b-ok">Gratuita</span></td></tr>
+          <tr><td>UE</td><td>€14,99</td></tr><tr><td>Internazionale</td><td>€19,99</td></tr></table></div>
+        <div class="card"><b>Pagine legali</b><p class="muted" style="margin:6px 0 0">Termini, Privacy, Recesso/Resi, Spedizioni, Note legali — pubblicate con dati impresa reali.</p></div>
+      </div>
+    </section>
+
+    <!-- FORNITORE -->
+    <section class="section" id="fornitore">
+      <div class="grid g3">
+        <div class="card kpi"><h3>Collegamento CJ</h3><div class="big">OK</div><span class="badge b-ok">Connesso</span></div>
+        <div class="card kpi"><h3>Import prodotti reali</h3><div class="big">In attesa</div><span class="badge b-warn">Sync bloccata</span></div>
+        <div class="card kpi"><h3>Ricontrollo auto</h3><div class="big">Pianificato</div><span class="badge b-ok">15/06 ore 10</span></div>
+      </div>
+      <div class="note" style="margin-top:16px">📦 CJ è collegato allo store. L'import dei 6 prodotti reali (foto + dati fornitore) è in attesa perché la sincronizzazione "Delivery Profiles" lato CJ dà ancora "No Data" — intoppo tipico post-installazione. È stato programmato un ricontrollo automatico. Nel frattempo lo store usa le grafiche brand provvisorie.</div>
+    </section>
+
+    <!-- AUTOMAZIONE -->
+    <section class="section" id="automazione">
+      <div class="grid g2">
+        <div class="card">
+          <div class="row"><h3>🤖 Autopilot social</h3><span class="badge b-ok">Attivo</span></div>
+          <table style="margin-top:6px">
+            <tr><td>Motore</td><td>GitHub Actions (cron)</td></tr>
+            <tr><td>Frequenza</td><td>1 post/giorno ~14:00</td></tr>
+            <tr><td>Canali</td><td>Instagram + YouTube</td></tr>
+            <tr><td>Generazione video</td><td>ffmpeg (gratis)</td></tr>
+          </table>
+          <a href="https://github.com/kekkosmile777/zampotta-autopilot" target="_blank">Repo →</a> ·
+          <a href="https://kekkosmile777.github.io/zampotta-autopilot/dashboard/" target="_blank">Log pubblicazioni →</a>
+        </div>
+        <div class="card">
+          <div class="row"><h3>⏰ Attività pianificate</h3><span class="badge b-ok">1 attiva</span></div>
+          <ul class="clean" style="margin-top:6px">
+            <li><div class="check done">✓</div><div><b>Ricontrollo import CJ</b> — 15/06 ore 10:00</div></li>
+          </ul>
+          <p class="muted" style="margin-top:8px">Predisposto per aggiungere: report settimanale performance, promemoria rinnovo token Meta (~60gg), alert scorte.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TODO -->
+    <section class="section" id="todo">
+      <div class="card">
+        <ul class="clean">
+          <li><div class="check todo"></div><div class="row" style="width:100%"><span><b>Scegliere il piano Shopify</b> — per andare online</span><span class="chip c-prio">URGENTE · ~16/06</span></div></li>
+          <li><div class="check todo"></div><div class="row" style="width:100%"><span><b>Aprire conto business</b> (intestato impresa padre)</span><span class="chip c-med">decidere</span></div></li>
+          <li><div class="check todo"></div><div class="row" style="width:100%"><span><b>Completare KYC PayPal</b></span><span class="chip c-med">verifica</span></div></li>
+          <li><div class="check todo"></div><div class="row" style="width:100%"><span><b>Import prodotti reali CJ</b> (ricontrollo auto 15/06)</span><span class="chip c-med">in attesa</span></div></li>
+          <li><div class="check todo"></div><div class="row" style="width:100%"><span><b>Hero/tema in italiano</b> (2 min nell'editor Shopify)</span><span class="chip c-low">estetica</span></div></li>
+          <li><div class="check todo"></div><div class="row" style="width:100%"><span><b>ATECO 47.91.10 + SCIA</b> — sistemare col commercialista</span><span class="chip c-low">fiscale</span></div></li>
+          <li><div class="check todo"></div><div class="row" style="width:100%"><span><b>Filmare clip reali</b> (15s) per i social</span><span class="chip c-low">continuo</span></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ROADMAP -->
+    <section class="section" id="roadmap">
+      <div class="sec-title">Fasi future (predisposte)</div>
+      <div class="grid g3">
+        <div class="card"><div class="row"><h3>📣 Pubblicità</h3><span class="badge b-future">Fase 2</span></div><p class="muted">Meta &amp; Google Ads, carte virtuali dedicate, pixel/eventi, retargeting.</p></div>
+        <div class="card"><div class="row"><h3>✉️ Email marketing</h3><span class="badge b-future">Fase 2</span></div><p class="muted">Recupero carrelli, benvenuto, post-acquisto (es. Klaviyo/Shopify Email).</p></div>
+        <div class="card"><div class="row"><h3>🔎 SEO &amp; contenuti</h3><span class="badge b-future">Fase 2</span></div><p class="muted">Blog, schede ottimizzate, parole chiave pet Italia.</p></div>
+        <div class="card"><div class="row"><h3>⭐ Recensioni</h3><span class="badge b-future">Fase 2</span></div><p class="muted">Recensioni prodotto + foto clienti (riprova sociale).</p></div>
+        <div class="card"><div class="row"><h3>🌍 Espansione UE</h3><span class="badge b-future">Fase 3</span></div><p class="muted">Spedizione + lingue per altri Paesi quando c'è trazione.</p></div>
+        <div class="card"><div class="row"><h3>🔁 Abbonamenti</h3><span class="badge b-future">Fase 3</span></div><p class="muted">Riacquisto ricorrente (es. consumabili) — PayPal ref. transactions.</p></div>
+      </div>
+      <div class="sec-title">Dati live (quando li colleghiamo)</div>
+      <div class="card"><p class="muted">Questa dashboard è <b>statica</b> per ora (la aggiorni a mano). È già strutturata per accogliere i dati in tempo reale: API social per follower/views, Shopify per ordini/incassi, CJ per stato spedizioni. Quando vuoi, la trasformiamo in versione "live".</p></div>
+    </section>
+
+    <div class="legend">
+      <span><span class="dot" style="background:var(--ok)"></span> Attivo</span>
+      <span><span class="dot" style="background:var(--warn)"></span> In corso / da fare</span>
+      <span><span class="dot" style="background:var(--bad)"></span> Urgente / bloccato</span>
+      <span><span class="dot" style="background:var(--future)"></span> Fase futura</span>
+    </div>
+  </main>
+</div>
+
+<script>
+  // date
+  document.getElementById('today').textContent = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'long',year:'numeric'});
+  // nav
+  const heads={panoramica:'Panoramica',social:'Social & Canali',contenuti:'Contenuti',performance:'Performance',store:'Store & Vendite',fornitore:'Fornitore (CJ)',automazione:'Automazione',todo:'Da fare',roadmap:'Roadmap futura'};
+  document.querySelectorAll('#nav button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      const s=b.dataset.s;
+      document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+      document.getElementById(s).classList.add('active');
+      document.getElementById('secHead').textContent=heads[s];
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+</script>
+</body>
+</html>
