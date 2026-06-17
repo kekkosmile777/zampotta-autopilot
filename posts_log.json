@@ -1,5 +1,22 @@
 [
   {
+    "date": "2026-06-17",
+    "file": "2026-06-17.mp4",
+    "title": "Tutto per il tuo pet cani e gatti felici",
+    "results": [
+      {
+        "channel": "instagram",
+        "status": "error",
+        "error": "Instagram media in ERROR: {'status_code': 'ERROR', 'id': '18101160421936351'}"
+      },
+      {
+        "channel": "youtube",
+        "status": "published",
+        "id": "37K4hQrN9Eg"
+      }
+    ]
+  },
+  {
     "date": "2026-06-16",
     "file": "2026-06-16.mp4",
     "title": "Lui ti da tutto tu dagli il meglio",
