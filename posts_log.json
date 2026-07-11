@@ -1,5 +1,22 @@
 [
   {
+    "date": "2026-07-11",
+    "file": "2026-07-11.mp4",
+    "title": "Asfalto bollente lui ha la sua oasi",
+    "results": [
+      {
+        "channel": "instagram",
+        "status": "error",
+        "error": "Instagram media in ERROR: {'status_code': 'ERROR', 'id': '18104940523936351'}"
+      },
+      {
+        "channel": "youtube",
+        "status": "published",
+        "id": "LwqXrTnOSsw"
+      }
+    ]
+  },
+  {
     "date": "2026-07-10",
     "file": "2026-07-10.mp4",
     "title": "Il tuo micio merita il meglio",
