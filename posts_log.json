@@ -1,5 +1,22 @@
 [
   {
+    "date": "2026-07-23",
+    "file": "2026-07-23.mp4",
+    "title": "Caldo record 3 modi per rinfrescarlo",
+    "results": [
+      {
+        "channel": "instagram",
+        "status": "error",
+        "error": "Instagram media in ERROR: {'status_code': 'ERROR', 'id': '18106868443936351'}"
+      },
+      {
+        "channel": "youtube",
+        "status": "published",
+        "id": "luHLlj0N68w"
+      }
+    ]
+  },
+  {
     "date": "2026-07-22",
     "file": "2026-07-22.mp4",
     "title": "Spedizione GRATIS in tutta Italia",
