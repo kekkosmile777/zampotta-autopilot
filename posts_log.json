@@ -1,5 +1,22 @@
 [
   {
+    "date": "2026-08-23",
+    "file": "2026-08-23.mp4",
+    "title": "Kit Estate Fresca per cani e gatti",
+    "results": [
+      {
+        "channel": "instagram",
+        "status": "error",
+        "error": "Instagram media in ERROR: {'status_code': 'ERROR', 'id': '18111794638936351'}"
+      },
+      {
+        "channel": "youtube",
+        "status": "published",
+        "id": "tEAZjMPXOkU"
+      }
+    ]
+  },
+  {
     "date": "2026-08-22",
     "file": "2026-08-22.mp4",
     "title": "Asfalto bollente lui ha la sua oasi",
