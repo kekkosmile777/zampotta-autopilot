@@ -1,5 +1,22 @@
 [
   {
+    "date": "2026-09-21",
+    "file": "2026-09-21.mp4",
+    "title": "Nuovi prodotti ogni settimana",
+    "results": [
+      {
+        "channel": "instagram",
+        "status": "error",
+        "error": "Instagram media in ERROR: {'id': '18115856071936351', 'status_code': 'ERROR'}"
+      },
+      {
+        "channel": "youtube",
+        "status": "published",
+        "id": "W_scgcMv0G0"
+      }
+    ]
+  },
+  {
     "date": "2026-09-20",
     "file": "2026-09-20.mp4",
     "title": "Kit Estate Fresca per cani e gatti",
