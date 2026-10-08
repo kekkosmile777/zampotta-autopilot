@@ -1,5 +1,22 @@
 [
   {
+    "date": "2026-10-08",
+    "file": "2026-10-08.mp4",
+    "title": "Con questo caldo soffre anche lui",
+    "results": [
+      {
+        "channel": "instagram",
+        "status": "error",
+        "error": "Instagram media in ERROR: {'id': '18118229743936351', 'status_code': 'ERROR'}"
+      },
+      {
+        "channel": "youtube",
+        "status": "published",
+        "id": "5JnxzjaL0wM"
+      }
+    ]
+  },
+  {
     "date": "2026-10-06",
     "file": "2026-10-06.mp4",
     "title": "Lui ti da tutto tu dagli il meglio",
