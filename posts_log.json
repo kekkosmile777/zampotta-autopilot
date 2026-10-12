@@ -1,5 +1,22 @@
 [
   {
+    "date": "2026-10-12",
+    "file": "2026-10-12.mp4",
+    "title": "Zampe sporche? pulite in 10 secondi",
+    "results": [
+      {
+        "channel": "instagram",
+        "status": "error",
+        "error": "Instagram media in ERROR: {'id': '18118813117936351', 'status_code': 'ERROR'}"
+      },
+      {
+        "channel": "youtube",
+        "status": "published",
+        "id": "dN7cwSnMrS8"
+      }
+    ]
+  },
+  {
     "date": "2026-10-11",
     "file": "2026-10-11.mp4",
     "title": "Peli ovunque? rimuovili coccolando",
