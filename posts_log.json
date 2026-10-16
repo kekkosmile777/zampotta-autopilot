@@ -1,5 +1,22 @@
 [
   {
+    "date": "2026-10-16",
+    "file": "2026-10-16.mp4",
+    "title": "Il tuo micio merita il meglio",
+    "results": [
+      {
+        "channel": "instagram",
+        "status": "error",
+        "error": "Instagram media in ERROR: {'id': '18119328745936351', 'status_code': 'ERROR'}"
+      },
+      {
+        "channel": "youtube",
+        "status": "published",
+        "id": "ZkNck_FHgdw"
+      }
+    ]
+  },
+  {
     "date": "2026-10-15",
     "file": "2026-10-15.mp4",
     "title": "Caldo record 3 modi per rinfrescarlo",
