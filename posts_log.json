@@ -1,5 +1,22 @@
 [
   {
+    "date": "2026-10-28",
+    "file": "2026-10-28.mp4",
+    "title": "Spedizione GRATIS in tutta Italia",
+    "results": [
+      {
+        "channel": "instagram",
+        "status": "error",
+        "error": "Instagram media in ERROR: {'id': '18121314136936351', 'status_code': 'ERROR'}"
+      },
+      {
+        "channel": "youtube",
+        "status": "published",
+        "id": "k9rDr_5oYiA"
+      }
+    ]
+  },
+  {
     "date": "2026-10-27",
     "file": "2026-10-27.mp4",
     "title": "Passeggiate roventi? rinfrescalo subito",
