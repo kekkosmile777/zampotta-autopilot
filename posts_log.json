@@ -1,5 +1,22 @@
 [
   {
+    "date": "2026-11-05",
+    "file": "2026-11-05.mp4",
+    "title": "Con questo caldo soffre anche lui",
+    "results": [
+      {
+        "channel": "instagram",
+        "status": "error",
+        "error": "Instagram media in ERROR: {'id': '18122545912936351', 'status_code': 'ERROR'}"
+      },
+      {
+        "channel": "youtube",
+        "status": "published",
+        "id": "m1TYlXybzGw"
+      }
+    ]
+  },
+  {
     "date": "2026-11-04",
     "file": "2026-11-04.mp4",
     "title": "Tutto per il tuo pet cani e gatti felici",
