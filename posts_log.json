@@ -1,5 +1,22 @@
 [
   {
+    "date": "2026-11-17",
+    "file": "2026-11-17.mp4",
+    "title": "Lui ti da tutto tu dagli il meglio",
+    "results": [
+      {
+        "channel": "instagram",
+        "status": "error",
+        "error": "Instagram media in ERROR: {'id': '18124419580936351', 'status_code': 'ERROR'}"
+      },
+      {
+        "channel": "youtube",
+        "status": "published",
+        "id": "xwRpx156eaU"
+      }
+    ]
+  },
+  {
     "date": "2026-11-16",
     "file": "2026-11-16.mp4",
     "title": "Nuovi prodotti ogni settimana",
