@@ -1,5 +1,22 @@
 [
   {
+    "date": "2026-11-20",
+    "file": "2026-11-20.mp4",
+    "title": "Il tuo gatto beve troppo poco?",
+    "results": [
+      {
+        "channel": "instagram",
+        "status": "error",
+        "error": "Instagram media in ERROR: {'id': '18124772722936351', 'status_code': 'ERROR'}"
+      },
+      {
+        "channel": "youtube",
+        "status": "published",
+        "id": "Xm7z4_V1SdA"
+      }
+    ]
+  },
+  {
     "date": "2026-11-19",
     "file": "2026-11-19.mp4",
     "title": "Con questo caldo soffre anche lui",
