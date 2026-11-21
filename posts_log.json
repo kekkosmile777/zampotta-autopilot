@@ -1,5 +1,22 @@
 [
   {
+    "date": "2026-11-21",
+    "file": "2026-11-21.mp4",
+    "title": "Mangia di fretta? rallenta il pasto",
+    "results": [
+      {
+        "channel": "instagram",
+        "status": "error",
+        "error": "Instagram media in ERROR: {'id': '18124898311936351', 'status_code': 'ERROR'}"
+      },
+      {
+        "channel": "youtube",
+        "status": "published",
+        "id": "sQBb8g8GVjM"
+      }
+    ]
+  },
+  {
     "date": "2026-11-20",
     "file": "2026-11-20.mp4",
     "title": "Il tuo gatto beve troppo poco?",
