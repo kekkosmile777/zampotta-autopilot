@@ -1,5 +1,22 @@
 [
   {
+    "date": "2026-11-22",
+    "file": "2026-11-22.mp4",
+    "title": "Peli ovunque? rimuovili coccolando",
+    "results": [
+      {
+        "channel": "instagram",
+        "status": "error",
+        "error": "Instagram media in ERROR: {'id': '18125025865936351', 'status_code': 'ERROR'}"
+      },
+      {
+        "channel": "youtube",
+        "status": "published",
+        "id": "Cl28OdqnM-w"
+      }
+    ]
+  },
+  {
     "date": "2026-11-21",
     "file": "2026-11-21.mp4",
     "title": "Mangia di fretta? rallenta il pasto",
