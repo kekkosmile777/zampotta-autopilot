@@ -1,5 +1,22 @@
 [
   {
+    "date": "2026-11-24",
+    "file": "2026-11-24.mp4",
+    "title": "Passeggiate roventi? rinfrescalo subito",
+    "results": [
+      {
+        "channel": "instagram",
+        "status": "error",
+        "error": "Instagram media in ERROR: {'id': '18125288371936351', 'status_code': 'ERROR'}"
+      },
+      {
+        "channel": "youtube",
+        "status": "published",
+        "id": "bQ4WVK8Tsn8"
+      }
+    ]
+  },
+  {
     "date": "2026-11-23",
     "file": "2026-11-23.mp4",
     "title": "Zampe sporche? pulite in 10 secondi",
